@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denial Management Section 7</title>
+</head>
+<style>
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+    }
+
+    .accordion-content.active {
+        max-height: 500px;
+        padding-top: 1rem;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const headers = document.querySelectorAll('.accordion-header');
+
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                // 1. Get the ID of the content using aria-controls
+                const contentId = header.getAttribute('aria-controls');
+                const content = document.getElementById(contentId);
+
+                // 2. Check current state and toggle
+                const isExpanded = header.getAttribute('aria-expanded') === 'true';
+
+                // Find the icon elements
+                const iconPlus = header.querySelector('.icon-plus');
+                const iconMinus = header.querySelector('.icon-minus');
+
+                // Toggle the 'active' class for the height transition
+                content.classList.toggle('active');
+
+                // Update the icon visibility
+                if (isExpanded) {
+                    // Closing: Show Plus, Hide Minus
+                    iconPlus.classList.remove('hidden');
+                    iconMinus.classList.add('hidden');
+                } else {
+                    // Opening: Hide Plus, Show Minus
+                    iconPlus.classList.add('hidden');
+                    iconMinus.classList.remove('hidden');
+                }
+
+                // Update the ARIA attribute for accessibility
+                header.setAttribute('aria-expanded', !isExpanded);
+            });
+        });
+    });
+</script>
+
+<body>
+    <!-- As you can see the example of this code on Paymedics Website Denial Mangement Page Section 7 -->
+    <div>
+        <h2>Heading 2</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A eveniet ipsum velit illo voluptatem odio. Aliquam
+            soluta est magnam, illum nemo adipisci, nobis at cum exercitationem libero nisi, dolorum natus?</p>
+        <div class="accordion-header" aria-expanded="false" aria-controls="content1" > <p class="icon-plus" >Show Data</p> <p class="icon-minus hidden" >Hide Data</p> </div>
+    </div>
+    <div id="content1" class="accordion-content" ><p>This is the hidden data</p></div>
+</body>
+
+
+</html>
